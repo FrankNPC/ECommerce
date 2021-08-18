@@ -1,0 +1,7 @@
+server:
+  port: 81
+
+spring:
+  application:
+    name: commugram-relay-service
+

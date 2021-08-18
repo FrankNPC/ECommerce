@@ -1,0 +1,24 @@
+server:
+  port: 10000
+
+spring:
+  application:
+    name: ecommerce-service-center
+    
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+logging:
+  pattern:
+    logging.file.name: ${spring.application.name}.log
+    logging.file.max-size: 2GB
+    rolling-file-name: "${LOG_FILE}.%d{yyyy-MM-dd}.%i.log"
+  file: logs/${spring.application.name}.log
+  level: 
+    root: DEBUG

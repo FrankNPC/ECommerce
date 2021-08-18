@@ -1,0 +1,46 @@
+server:
+  port: 10001
+  
+eureka:
+    client:
+      service-url:
+          defaultZone: http://localhost:10000/eureka/
+
+spring:
+  application:
+    name: ecommerce-service-user
+    
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/ecommerce_user?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+
+  data:
+    cassandra:
+      cluster-name: ecommerce
+      keyspace-name: ecommerce
+      contact-points: 127.0.0.1
+      port: 9042
+      username: 
+      password: 
+
+  redis:
+    database: 0  
+    host: 127.0.0.1
+    port: 6379  
+    password: 
+    timeout: 3000
+    jedis.pool.max-active: 8
+    jedis.pool.max-wait: -1
+    jedis.pool.max-idle: 8
+    jedis.pool.min-idle: 0
+
+logging:
+  pattern:
+    logging.file.name: ${spring.application.name}.log
+    logging.file.max-size: 2GB
+    rolling-file-name: "${LOG_FILE}.%d{yyyy-MM-dd}.%i.log"
+  file: logs/${spring.application.name}.log
+  level: 
+    root: DEBUG

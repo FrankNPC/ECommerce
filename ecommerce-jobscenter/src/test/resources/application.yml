@@ -1,0 +1,55 @@
+server:
+  nodeid: 5
+
+eureka:
+    client:
+      service-url:
+          defaultZone: http://localhost:10000/eureka/
+
+ecommerce:
+  service:
+    user: http://localhost:10001/service/userService
+    token: http://localhost:10001/service/tokenService
+    product: http://localhost:10002/service/productService
+    order: http://localhost:10003/service/orderService
+
+spring:
+  application:
+    name: ecommerce-jobscenter
+    
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/ecommerce_allinone?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+
+  redis:
+    database: 0  
+    host: 127.0.0.1
+    port: 6379  
+    password: 
+    timeout: 3000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
+  kafka_consumer:
+    bootstrap.servers: localhost:9092
+    group.id: consumer-group-ecommerce-order,consumer-group-ecommerce-product
+    auto.offset.reset: earliest
+    enable.auto.commit: true
+    auto.commit.interval.ms: 100
+    key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+logging:
+  pattern:
+    logging.file.name: ${spring.application.name}.log
+    logging.file.max-size: 2GB
+    rolling-file-name: "${LOG_FILE}.%d{yyyy-MM-dd}.%i.log"
+  file: logs/${spring.application.name}.log
+  level: 
+    root: DEBUG
