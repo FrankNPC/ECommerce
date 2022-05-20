@@ -10,7 +10,7 @@ import ecommerce.service.client.ProductService;
 @Configuration
 @EnableWebMvc
 public class ProductServicesProvider{
-    
+	
 	@Bean("/service/productService")
 	public HttpInvokerServiceExporter provideProductService(ProductService productService) {
 		HttpInvokerServiceExporter httpInvokerServiceExporter = new HttpInvokerServiceExporter();
@@ -18,6 +18,6 @@ public class ProductServicesProvider{
 		httpInvokerServiceExporter.setServiceInterface(ProductService.class);
 		httpInvokerServiceExporter.afterPropertiesSet();
 		return httpInvokerServiceExporter;
-    }
+	}
 
 }

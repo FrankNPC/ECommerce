@@ -30,29 +30,29 @@ import ecommerce.service.order.dao.OrderDAOFromMySQL;
 @Service
 public class OrderServiceImplement implements OrderService{
 	
-    private static final Logger logger = LoggerFactory.getLogger(OrderServiceImplement.class);
+	private static final Logger logger = LoggerFactory.getLogger(OrderServiceImplement.class);
 
-    @Autowired
-    private OrderDAOFromMySQL orderDAO;
-    
-//    @Autowired
-//    private OrderDAOByCassandra orderDAO;
+	@Autowired
+	private OrderDAOFromMySQL orderDAO;
+	
+//	@Autowired
+//	private OrderDAOByCassandra orderDAO;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
 
-    @Resource
-    private KafkaTemplate<String, String> stringKafkaTemplate;
+	@Resource
+	private KafkaTemplate<String, String> stringKafkaTemplate;
 
-    @Resource
-    private OrderFlowService orderFlowService;
+	@Resource
+	private OrderFlowService orderFlowService;
 
-    @Resource
-    private ProductService productService;
+	@Resource
+	private ProductService productService;
 
-    @Resource
+	@Resource
 	private UserService userService;
-    
+	
 	@Override
 	public Result<List<Order>> queryOrders(Order order, int start, int size) {
 		Result<List<Order>> result = new Result<List<Order>>();
@@ -89,10 +89,10 @@ public class OrderServiceImplement implements OrderService{
 		if (existed==null||existed) {
 			return result;
 		}
-    	Result<User> userResult = userService.getUserById(shopCartOrder.getUserId());
-    	if (userResult==null||userResult.getCode()!=Result.Code.OK.value) {
+		Result<User> userResult = userService.getUserById(shopCartOrder.getUserId());
+		if (userResult==null||userResult.getCode()!=Result.Code.OK.value) {
 			return result;
-    	}
+		}
 
 		Result<List<Long>> quantityResult = productService.queryQuantity(shopCartOrder.getProductIds());
 		for(int i=0; i<shopCartOrder.getProductIds().size(); i++) {

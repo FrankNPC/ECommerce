@@ -30,119 +30,119 @@ import org.springframework.test.context.ActiveProfiles;
 @WebAppConfiguration
 public class ProductTest {
 	
-    private MockMvc mockMvc;
+	private MockMvc mockMvc;
 
-    @Autowired
-    protected WebApplicationContext wac;
-    
-    @Before
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    }
+	@Autowired
+	protected WebApplicationContext wac;
+	
+	@Before
+	public void setup() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+	}
 
-    private String getToken(String sessionId) throws Exception {
-    	ObjectMapper objectMapper = new ObjectMapper();
-        String responseString = mockMvc.perform(
-	                get("/token/get")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("session_id", sessionId)
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(responseString);
-        System.out.println("getToken           :"+responseString);
-        return objectMapper.readTree(responseString).get("token").asText();
-    }
-    
-    @Test
-    public void testProduct() throws Exception {
-    	ObjectMapper objectMapper = new ObjectMapper();
-    	String username = "user_"+System.currentTimeMillis();
-    	String password = StringUtils.hex62EncodingWithRandom(32);
-        String userResponseString = mockMvc.perform(
-	                get("/user/create")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("username", username)
-	                .param("password", password)
-	                .param("token", getToken(null))
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(objectMapper.readTree(userResponseString).get("session_id"));
-        System.out.println("testUsercreate     :"+userResponseString);
+	private String getToken(String sessionId) throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+		String responseString = mockMvc.perform(
+					get("/token/get")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("session_id", sessionId)
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(responseString);
+		System.out.println("getToken		   :"+responseString);
+		return objectMapper.readTree(responseString).get("token").asText();
+	}
+	
+	@Test
+	public void testProduct() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+		String username = "user_"+System.currentTimeMillis();
+		String password = StringUtils.hex62EncodingWithRandom(32);
+		String userResponseString = mockMvc.perform(
+					get("/user/create")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("username", username)
+					.param("password", password)
+					.param("token", getToken(null))
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(objectMapper.readTree(userResponseString).get("session_id"));
+		System.out.println("testUsercreate	 :"+userResponseString);
 
-        String prodResponseString = mockMvc.perform(
-	                get("/product/create")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("name", StringUtils.hex62EncodingWithRandom(64))
-	                .param("price", "12345432")
-	                .param("quantity", "765323")
-	                .param("category_id", "321")
-	                .param("status", "0")
-	                .param("token", objectMapper.readTree(userResponseString).get("token").asText())
-	                .param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(objectMapper.readTree(prodResponseString).get("product"));
-        System.out.println("testAdd            :"+prodResponseString);
+		String prodResponseString = mockMvc.perform(
+					get("/product/create")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("name", StringUtils.hex62EncodingWithRandom(64))
+					.param("price", "12345432")
+					.param("quantity", "765323")
+					.param("category_id", "321")
+					.param("status", "0")
+					.param("token", objectMapper.readTree(userResponseString).get("token").asText())
+					.param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(objectMapper.readTree(prodResponseString).get("product"));
+		System.out.println("testAdd			:"+prodResponseString);
 
-        String responseString = mockMvc.perform(
-                get("/product/modify")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("callback","callback_"+System.currentTimeMillis())
-                .param("id", objectMapper.readTree(objectMapper.readTree(prodResponseString).findValue("product").asText()).get("id").asText())
-                .param("name", StringUtils.hex62EncodingWithRandom(64))
-                .param("price", "432424")
-                .param("quantity", "123")
-                .param("token", getToken(null))
-                .param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
-    		).andExpect(status().isOk())
-            .andDo(print())
-            .andReturn().getResponse().getContentAsString();
+		String responseString = mockMvc.perform(
+				get("/product/modify")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//				.param("callback","callback_"+System.currentTimeMillis())
+				.param("id", objectMapper.readTree(objectMapper.readTree(prodResponseString).findValue("product").asText()).get("id").asText())
+				.param("name", StringUtils.hex62EncodingWithRandom(64))
+				.param("price", "432424")
+				.param("quantity", "123")
+				.param("token", getToken(null))
+				.param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(objectMapper.readTree(responseString).get("product"));
-	    System.out.println("testModify          :"+responseString);
-	    
-        responseString = mockMvc.perform(
-                get("/product/increQuantity")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("callback","callback_"+System.currentTimeMillis())
-                .param("id", objectMapper.readTree(objectMapper.readTree(prodResponseString).findValue("product").asText()).get("id").asText())
-                .param("quantity", "32")
-                .param("token", getToken(null))
-                .param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
-    		).andExpect(status().isOk())
-            .andDo(print())
-            .andReturn().getResponse().getContentAsString();
+		System.out.println("testModify		  :"+responseString);
+		
+		responseString = mockMvc.perform(
+				get("/product/increQuantity")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//				.param("callback","callback_"+System.currentTimeMillis())
+				.param("id", objectMapper.readTree(objectMapper.readTree(prodResponseString).findValue("product").asText()).get("id").asText())
+				.param("quantity", "32")
+				.param("token", getToken(null))
+				.param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(objectMapper.readTree(responseString).get("quantity"));
-	    System.out.println("testincreQuantity     :"+responseString);
+		System.out.println("testincreQuantity	 :"+responseString);
 
-        responseString = mockMvc.perform(
-	                get("/product/remove")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("id", objectMapper.readTree(objectMapper.readTree(prodResponseString).findValue("product").asText()).get("id").asText())
-	                .param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
-	                .param("token", objectMapper.readTree(responseString).get("token").asText())
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(objectMapper.readTree(responseString));
-        System.out.println("testremove          :"+responseString);
+		responseString = mockMvc.perform(
+					get("/product/remove")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("id", objectMapper.readTree(objectMapper.readTree(prodResponseString).findValue("product").asText()).get("id").asText())
+					.param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
+					.param("token", objectMapper.readTree(responseString).get("token").asText())
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(objectMapper.readTree(responseString));
+		System.out.println("testremove		  :"+responseString);
 
-        responseString = mockMvc.perform(
-                get("/product/query")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("callback","callback_"+System.currentTimeMillis())
-                .param("token", objectMapper.readTree(responseString).get("token").asText())
-                .param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
-    		).andExpect(status().isOk())
-            .andDo(print())
-            .andReturn().getResponse().getContentAsString();
+		responseString = mockMvc.perform(
+				get("/product/query")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//				.param("callback","callback_"+System.currentTimeMillis())
+				.param("token", objectMapper.readTree(responseString).get("token").asText())
+				.param("session_id", objectMapper.readTree(userResponseString).get("session_id").asText())
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(objectMapper.readTree(responseString).get("products"));
-	    System.out.println("testquery          :"+responseString);
-    }
+		System.out.println("testquery		  :"+responseString);
+	}
 }

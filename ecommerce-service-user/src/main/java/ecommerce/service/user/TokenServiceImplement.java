@@ -15,8 +15,8 @@ import ecommerce.service.client.TokenService;
 @Service
 public class TokenServiceImplement implements TokenService{
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public Result<String> getToken(){

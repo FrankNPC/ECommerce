@@ -14,27 +14,27 @@ import ecommerce.service.client.ProductService;
 @Profile("!local")
 public class ServicesForJobsConsumers {
 
-    @Value("${ecommerce.service.product}")
-    String productServiceName;
-    @Value("${ecommerce.service.order}")
-    String orderServiceName;
+	@Value("${ecommerce.service.product}")
+	String productServiceName;
+	@Value("${ecommerce.service.order}")
+	String orderServiceName;
 
 	@Bean(name = "productServiceClient")
 	@Primary
-    public HttpInvokerProxyFactoryBean getProductServiceClient(){
-        HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceInterface(ProductService.class);
-        proxy.setServiceUrl(productServiceName);
-        return proxy;
-    }
+	public HttpInvokerProxyFactoryBean getProductServiceClient() {
+		HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
+		proxy.setServiceInterface(ProductService.class);
+		proxy.setServiceUrl(productServiceName);
+		return proxy;
+	}
 
 	@Bean(name = "orderServiceClient")
 	@Primary
-    public HttpInvokerProxyFactoryBean getOrderServiceClient(){
-        HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceInterface(OrderService.class);
-        proxy.setServiceUrl(orderServiceName);
-        return proxy;
-    }
+	public HttpInvokerProxyFactoryBean getOrderServiceClient() {
+		HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
+		proxy.setServiceInterface(OrderService.class);
+		proxy.setServiceUrl(orderServiceName);
+		return proxy;
+	}
 
 }

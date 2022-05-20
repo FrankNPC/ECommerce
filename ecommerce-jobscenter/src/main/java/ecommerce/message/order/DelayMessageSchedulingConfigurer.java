@@ -26,20 +26,20 @@ import ecommerce.service.order.OrderMessageTopics;
 @EnableScheduling 
 public class DelayMessageSchedulingConfigurer implements SchedulingConfigurer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DelayMessageSchedulingConfigurer.class);
+	private static final Logger logger = LoggerFactory.getLogger(DelayMessageSchedulingConfigurer.class);
 
-    @Autowired
-    private KafkaTemplate<String, ShopCartOrder> shopCartOrderKafkaTemplate;
+	@Autowired
+	private KafkaTemplate<String, ShopCartOrder> shopCartOrderKafkaTemplate;
 
-    @Autowired
-    private KafkaTemplate<String, Order> orderKafkaTemplate;
-    
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+	@Autowired
+	private KafkaTemplate<String, Order> orderKafkaTemplate;
+
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addFixedDelayTask(new Runnable() {
+		taskRegistrar.addFixedDelayTask(new Runnable() {
 				@Override
 				public void run() {
 					Lock lock = new ReentrantLock();
@@ -71,9 +71,9 @@ public class DelayMessageSchedulingConfigurer implements SchedulingConfigurer {
 						}
 					}
 				}
-			}, 0l);
-        
-        taskRegistrar.addFixedDelayTask(new Runnable() {
+		}, 0l);
+
+		taskRegistrar.addFixedDelayTask(new Runnable() {
 				@Override
 				public void run() {
 					Lock lock = new ReentrantLock();
@@ -105,9 +105,9 @@ public class DelayMessageSchedulingConfigurer implements SchedulingConfigurer {
 						}
 					}
 				}
-			}, 0l);
-        
-        taskRegistrar.addFixedDelayTask(new Runnable() {
+		}, 0l);
+
+		taskRegistrar.addFixedDelayTask(new Runnable() {
 				@Override
 				public void run() {
 					Lock lock = new ReentrantLock();

@@ -8,11 +8,11 @@ import org.springframework.context.annotation.ComponentScan;
 //@EnableEurekaClient
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"ecommerce.rest", "ecommerce.service"})
+@ComponentScan(basePackages = { "ecommerce.rest", "ecommerce.service" })
 public class RestBootApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(RestBootApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(RestBootApplication.class, args);
+	}
 
 }

@@ -31,26 +31,26 @@ import ecommerce.service.product.dao.ProductDAOByMySQL;
 @Service
 public class ProductServiceImplementByHbaseMySQL implements ProductService{
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImplementByHbaseMySQL.class);
-    
-    @Autowired
-    private ProductDAOByMySQL productDAO;
+	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImplementByHbaseMySQL.class);
+	
+	@Autowired
+	private ProductDAOByMySQL productDAO;
 
-    @Resource
-    private RedisTemplate<String, Product> redisTemplate;
+	@Resource
+	private RedisTemplate<String, Product> redisTemplate;
 
-    @Resource
-    private KafkaTemplate<String, String> stringKafkaTemplate;
-    
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+	@Resource
+	private KafkaTemplate<String, String> stringKafkaTemplate;
+	
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
 
-//    @Resource
-//    private RedisLock distributedLock;
+//	@Resource
+//	private RedisLock distributedLock;
 
-    @Resource
-    private HbaseTemplate hbaseTemplate;
-    
+	@Resource
+	private HbaseTemplate hbaseTemplate;
+	
 	@Override
 	public Result<List<Product>> queryProducts(Product product, int start, int size) {
 		Result<List<Product>> result = new Result<List<Product>>();
@@ -180,7 +180,7 @@ public class ProductServiceImplementByHbaseMySQL implements ProductService{
 					
 			"for i=1, #ARGV, 1 do \n"+
 			"  if tonumber(redis.call('HGET', '"+KeyIdentifies.ProductQuantityKey.value+"', KEYS[i]))<tonumber(ARGV[i]) then\n"+
-			"    return ret \n"+
+			"	return ret \n"+
 			"  end \n"+
 			"end \n"+
 
@@ -236,7 +236,7 @@ public class ProductServiceImplementByHbaseMySQL implements ProductService{
 										.map(n->n.isEmpty()?null:Long.parseLong(n))
 											.collect(Collectors.toList()));
 		}
-    	
+		
 		result.setCode(result.getData()==null?Result.Code.Error.value:Result.Code.OK.value);
 		return result;
 	}

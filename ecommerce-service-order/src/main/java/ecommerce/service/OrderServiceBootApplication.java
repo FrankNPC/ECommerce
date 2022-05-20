@@ -25,21 +25,21 @@ import org.springframework.kafka.core.KafkaTemplate;
 @MapperScan(basePackages="ecommerce.service.order", annotationClass=Mapper.class)
 public class OrderServiceBootApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(OrderServiceBootApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(OrderServiceBootApplication.class, args);
+	}
 
-    private Map<String, Object> kafka = new HashMap<>();
-    public Map<String, Object> getKafkaProducer() {
-        return kafka;
-    }
-    public void setKafkaProducer(Map<String, String> config) {
-        this.kafka.putAll(config);
-    }
-    
-    @Bean
+	private Map<String, Object> kafka = new HashMap<>();
+	public Map<String, Object> getKafkaProducer() {
+		return kafka;
+	}
+	public void setKafkaProducer(Map<String, String> config) {
+		this.kafka.putAll(config);
+	}
+	
+	@Bean
 	@Primary
-    public KafkaTemplate<String, String> getKafkaTemplate() {
-        return new KafkaTemplate<String, String>(new DefaultKafkaProducerFactory<String, String>(kafka));
-    }
+	public KafkaTemplate<String, String> getKafkaTemplate() {
+		return new KafkaTemplate<String, String>(new DefaultKafkaProducerFactory<String, String>(kafka));
+	}
 }

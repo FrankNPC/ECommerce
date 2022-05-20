@@ -9,57 +9,57 @@ package ecommerce.service.order.dao;
 ////@Configuration
 //public class EcommerceOrderCassandraConfiguration extends AbstractCassandraConfiguration {
 //
-//    @Value("${spring.data.cassandra.keyspace-name}")
-//    private String keyspaceName;
+//	@Value("${spring.data.cassandra.keyspace-name}")
+//	private String keyspaceName;
 //   
-//    @Value("${spring.data.cassandra.contact-points}")
-//    private String contactPoints;
+//	@Value("${spring.data.cassandra.contact-points}")
+//	private String contactPoints;
 //
-//    @Value("${spring.data.cassandra.port}")
-//    private int port;
+//	@Value("${spring.data.cassandra.port}")
+//	private int port;
 //
-//    @Value("${spring.data.cassandra.cluster-name}")
-//    private String clusterName;
+//	@Value("${spring.data.cassandra.cluster-name}")
+//	private String clusterName;
 //
-//    @Value("${spring.data.cassandra.username}")
-//    private String username;
+//	@Value("${spring.data.cassandra.username}")
+//	private String username;
 //
-//    @Value("${spring.data.cassandra.password}")
-//    private String password;
+//	@Value("${spring.data.cassandra.password}")
+//	private String password;
 //
-//    @Override
-//    protected String getKeyspaceName() {
-//        return keyspaceName;
-//    }
+//	@Override
+//	protected String getKeyspaceName() {
+//		return keyspaceName;
+//	}
 //
-//    @Override
-//    public String getContactPoints() {
-//        return contactPoints;
-//    }
+//	@Override
+//	public String getContactPoints() {
+//		return contactPoints;
+//	}
 //
-//    @Override
-//    public int getPort() {
-//        return this.port;
-//    }
+//	@Override
+//	public int getPort() {
+//		return this.port;
+//	}
 //
-//    @Override
-//    public String getClusterName() {
-//        return clusterName;
-//    }
+//	@Override
+//	public String getClusterName() {
+//		return clusterName;
+//	}
 //
-//    @Override
-//    protected boolean getMetricsEnabled() {
-//        return false;
-//    }
+//	@Override
+//	protected boolean getMetricsEnabled() {
+//		return false;
+//	}
 //
-//    @Override
-//    protected AuthProvider getAuthProvider() {
-//        return new PlainTextAuthProvider(username,password);
-//    }
+//	@Override
+//	protected AuthProvider getAuthProvider() {
+//		return new PlainTextAuthProvider(username,password);
+//	}
 //
-//    @Override
-//    public String[] getEntityBasePackages() {
-//        return new String[]{EcommerceOrder.class.getName()};
-//    }
+//	@Override
+//	public String[] getEntityBasePackages() {
+//		return new String[]{EcommerceOrder.class.getName()};
+//	}
 //
 //}

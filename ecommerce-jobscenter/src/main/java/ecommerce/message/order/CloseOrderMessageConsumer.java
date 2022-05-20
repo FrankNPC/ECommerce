@@ -19,20 +19,19 @@ import ecommerce.service.order.client.OrderFlowService;
 
 public class CloseOrderMessageConsumer implements MessageListener<String, Order> {
 
-    private static final Logger logger = LoggerFactory.getLogger(CloseOrderMessageConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(CloseOrderMessageConsumer.class);
 
 	public CloseOrderMessageConsumer(Map<String, Object> config) throws Exception {
-        ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.OrderClose.value);
-        containerProperties.setMessageListener(this);
-        
-        new KafkaMessageListenerContainer<String, Order>(
-        		new DefaultKafkaConsumerFactory<String, Order>(config),
-        		containerProperties).start();
-    }
-	
-    @Autowired
-    private OrderFlowService orderFlowService;
-    
+		ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.OrderClose.value);
+		containerProperties.setMessageListener(this);
+
+		new KafkaMessageListenerContainer<String, Order>(new DefaultKafkaConsumerFactory<String, Order>(config),
+				containerProperties).start();
+	}
+
+	@Autowired
+	private OrderFlowService orderFlowService;
+
 	@Override
 	public void onMessage(ConsumerRecord<String, Order> consumer) {
 		try {
@@ -42,5 +41,4 @@ public class CloseOrderMessageConsumer implements MessageListener<String, Order>
 			logger.error(e.getMessage());
 		}
 	}
-    
 }

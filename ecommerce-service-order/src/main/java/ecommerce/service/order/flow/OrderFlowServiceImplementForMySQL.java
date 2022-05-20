@@ -30,14 +30,14 @@ import ecommerce.service.order.dao.OrderDAOFromMySQL;
 @Service
 public class OrderFlowServiceImplementForMySQL implements OrderFlowService{
 
-    @Autowired
-    private OrderDAOFromMySQL orderDAO;
+	@Autowired
+	private OrderDAOFromMySQL orderDAO;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
 
-    @Resource
-    private ProductService productService;
+	@Resource
+	private ProductService productService;
 
 	@Override
 	@Transactional(rollbackFor = OrderFlowException.class)

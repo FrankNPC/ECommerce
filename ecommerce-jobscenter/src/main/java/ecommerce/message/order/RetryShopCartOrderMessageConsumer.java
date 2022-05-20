@@ -22,23 +22,22 @@ import ecommerce.service.client.base.ShopCartOrder;
 
 public class RetryShopCartOrderMessageConsumer implements MessageListener<String, ShopCartOrder> {
 
-    private static final Logger logger = LoggerFactory.getLogger(RetryShopCartOrderMessageConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(RetryShopCartOrderMessageConsumer.class);
 
 	public RetryShopCartOrderMessageConsumer(Map<String, Object> config) throws Exception {
-        ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.RetryShopCartOrder.value);
-        containerProperties.setMessageListener(this);
-        
-        new KafkaMessageListenerContainer<String, ShopCartOrder>(
-        		new DefaultKafkaConsumerFactory<String, ShopCartOrder>(config),
-        		containerProperties).start();
-    }
-	
-    @Autowired
-    private OrderFlowService orderFlowService;
+		ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.RetryShopCartOrder.value);
+		containerProperties.setMessageListener(this);
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-    
+		new KafkaMessageListenerContainer<String, ShopCartOrder>(
+				new DefaultKafkaConsumerFactory<String, ShopCartOrder>(config), containerProperties).start();
+	}
+
+	@Autowired
+	private OrderFlowService orderFlowService;
+
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
+
 	@Override
 	public void onMessage(ConsumerRecord<String, ShopCartOrder> consumer) {
 		try {
@@ -54,5 +53,4 @@ public class RetryShopCartOrderMessageConsumer implements MessageListener<String
 			logger.error(e.getMessage());
 		}
 	}
-    
 }

@@ -19,19 +19,18 @@ import ecommerce.service.client.base.Order;
 
 public class RefundOrderMessageConsumer implements MessageListener<String, Order> {
 
-    private static final Logger logger = LoggerFactory.getLogger(RefundOrderMessageConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(RefundOrderMessageConsumer.class);
 
 	public RefundOrderMessageConsumer(Map<String, Object> config) throws Exception {
-        ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.RefundOrder.value);
-        containerProperties.setMessageListener(this);
-        
-        new KafkaMessageListenerContainer<String, Order>(
-        		new DefaultKafkaConsumerFactory<String, Order>(config),
-        		containerProperties).start();
-    }
-    
-    @Autowired
-    private OrderFlowService orderFlowService;
+		ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.RefundOrder.value);
+		containerProperties.setMessageListener(this);
+
+		new KafkaMessageListenerContainer<String, Order>(new DefaultKafkaConsumerFactory<String, Order>(config),
+				containerProperties).start();
+	}
+
+	@Autowired
+	private OrderFlowService orderFlowService;
 
 	@Override
 	public void onMessage(ConsumerRecord<String, Order> consumer) {
@@ -42,5 +41,4 @@ public class RefundOrderMessageConsumer implements MessageListener<String, Order
 			logger.error(e.getMessage());
 		}
 	}
-    
 }

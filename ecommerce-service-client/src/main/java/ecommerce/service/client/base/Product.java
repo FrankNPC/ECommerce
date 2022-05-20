@@ -17,7 +17,7 @@ public class Product implements java.io.Serializable {
 	private Integer categoryId;
 
 	public enum Status {
-	    Actived(0), Invalid(-1);
+		Actived(0), Invalid(-1);
 		public int value=0;
 		private Status(int s){this.value=s;}
 	}

@@ -28,14 +28,14 @@ package ecommerce.service.order.flow;
 ////@Service
 //public class OrderFlowServiceImplementForCassandra implements OrderFlowService{
 //
-//    @Autowired
-//    private OrderDAOByCassandra orderDAO;
+//	@Autowired
+//	private OrderDAOByCassandra orderDAO;
 //
-//    @Resource
-//    private StringRedisTemplate stringRedisTemplate;
+//	@Resource
+//	private StringRedisTemplate stringRedisTemplate;
 //
-//    @Resource
-//    private ProductService productService;
+//	@Resource
+//	private ProductService productService;
 //
 //	@Override
 ////	@Transactional

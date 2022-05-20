@@ -14,8 +14,8 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan(basePackages="ecommerce.service.user", annotationClass=Mapper.class)
 public class UserServiceBootApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(UserServiceBootApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(UserServiceBootApplication.class, args);
+	}
 
 }

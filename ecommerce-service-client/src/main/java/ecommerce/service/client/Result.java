@@ -6,7 +6,7 @@ public class Result<T> implements Serializable {
 	private static final long serialVersionUID = -8906331159333838057L;
 
 	public enum Code {
-	    OK(0), Error(-1);
+		OK(0), Error(-1);
 		public int value=0;
 		private Code(int s){this.value=s;}
 	}

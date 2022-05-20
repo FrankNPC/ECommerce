@@ -22,17 +22,16 @@ public class PaymentOrderMessageConsumer implements MessageListener<String, Orde
 	private static final Logger logger = LoggerFactory.getLogger(PaymentOrderMessageConsumer.class);
 
 	public PaymentOrderMessageConsumer(Map<String, Object> config) throws Exception {
-        ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.PaymentOrder.value);
-        containerProperties.setMessageListener(this);
-        
-        new KafkaMessageListenerContainer<String, Order>(
-        		new DefaultKafkaConsumerFactory<String, Order>(config),
-        		containerProperties).start();
-    }
-	
-    @Autowired
-    private OrderFlowService orderFlowService;
-    
+		ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.PaymentOrder.value);
+		containerProperties.setMessageListener(this);
+
+		new KafkaMessageListenerContainer<String, Order>(new DefaultKafkaConsumerFactory<String, Order>(config),
+				containerProperties).start();
+	}
+
+	@Autowired
+	private OrderFlowService orderFlowService;
+
 	@Override
 	public void onMessage(ConsumerRecord<String, Order> consumer) {
 		try {
@@ -42,5 +41,4 @@ public class PaymentOrderMessageConsumer implements MessageListener<String, Orde
 			logger.error(e.getMessage());
 		}
 	}
-    
 }

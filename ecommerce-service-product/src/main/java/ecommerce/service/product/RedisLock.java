@@ -16,21 +16,23 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import ecommerce.common.StringUtils;
 
 public class RedisLock implements Lock{
-	
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
 
-    public RedisLock(long nodeId) {
-    	this.sessionId = "RedisLock_"+nodeId+"_"+StringUtils.hex62EncodingWithRandom(16, System.currentTimeMillis());
-    }
-    
-    private long distributLockTimeoutInMillis = 3000;
-    private List<String> distributableKeys = new ArrayList<String>();
-    private String sessionId = "";
-    public void setDistributeKeys(List<String> keys) {
-    	this.distributableKeys.clear();
-    	this.distributableKeys.addAll(keys);
-    }
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
+
+	public RedisLock(long nodeId) {
+		this.sessionId = "RedisLock_" + nodeId + "_"
+				+ StringUtils.hex62EncodingWithRandom(16, System.currentTimeMillis());
+	}
+
+	private long distributLockTimeoutInMillis = 3000;
+	private List<String> distributableKeys = new ArrayList<String>();
+	private String sessionId = "";
+
+	public void setDistributeKeys(List<String> keys) {
+		this.distributableKeys.clear();
+		this.distributableKeys.addAll(keys);
+	}
 
 	@Override
 	public void lock() {

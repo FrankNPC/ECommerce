@@ -28,32 +28,32 @@ import org.springframework.test.context.ActiveProfiles;
 @WebAppConfiguration
 public class TokenTest {
 	
-    private MockMvc mockMvc;
+	private MockMvc mockMvc;
 
-    @Autowired
-    protected WebApplicationContext wac;
-    
-    @Before
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    }
+	@Autowired
+	protected WebApplicationContext wac;
+	
+	@Before
+	public void setup() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+	}
 
-    @Test
-    public void testTokenGet() throws Exception {
-//    	mockMvc.perform((get("/token/get")
-//    			.param("callback", "admin")
-//    			.param("session_id", "1")))
-//        .andDo(print());
-        
-        String responseString = mockMvc.perform(
-	                get("/token/get")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("session_id", StringUtils.hex62EncodingWithRandom(32))
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(responseString);
-        System.out.println("testTokenGet   :"+responseString);
-    }
+	@Test
+	public void testTokenGet() throws Exception {
+//		mockMvc.perform((get("/token/get")
+//				.param("callback", "admin")
+//				.param("session_id", "1")))
+//		.andDo(print());
+		
+		String responseString = mockMvc.perform(
+					get("/token/get")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+					.param("callback","callback_"+System.currentTimeMillis())
+					.param("session_id", StringUtils.hex62EncodingWithRandom(32))
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(responseString);
+		System.out.println("testTokenGet   :"+responseString);
+	}
 }

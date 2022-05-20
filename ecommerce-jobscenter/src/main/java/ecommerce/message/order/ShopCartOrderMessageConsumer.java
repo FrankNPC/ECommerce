@@ -23,22 +23,21 @@ import ecommerce.service.client.base.ShopCartOrder;
 
 public class ShopCartOrderMessageConsumer implements MessageListener<String, ShopCartOrder> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShopCartOrderMessageConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShopCartOrderMessageConsumer.class);
 
 	public ShopCartOrderMessageConsumer(Map<String, Object> config) throws Exception {
-        ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.ShopCartOrder.value);
-        containerProperties.setMessageListener(this);
-        
-        new KafkaMessageListenerContainer<String, ShopCartOrder>(
-        		new DefaultKafkaConsumerFactory<String, ShopCartOrder>(config),
-        		containerProperties).start();
-    }
+		ContainerProperties containerProperties = new ContainerProperties(OrderMessageTopics.ShopCartOrder.value);
+		containerProperties.setMessageListener(this);
 
-    @Autowired
-    private OrderFlowService orderFlowService;
+		new KafkaMessageListenerContainer<String, ShopCartOrder>(
+				new DefaultKafkaConsumerFactory<String, ShopCartOrder>(config), containerProperties).start();
+	}
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+	@Autowired
+	private OrderFlowService orderFlowService;
+
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public void onMessage(ConsumerRecord<String, ShopCartOrder> consumer) {
@@ -59,5 +58,5 @@ public class ShopCartOrderMessageConsumer implements MessageListener<String, Sho
 			logger.error(e.getMessage());
 		}
 	}
-    
+
 }

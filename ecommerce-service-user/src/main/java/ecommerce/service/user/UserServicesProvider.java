@@ -19,7 +19,7 @@ public class UserServicesProvider{
 		httpInvokerServiceExporter.setServiceInterface(TokenService.class);
 		httpInvokerServiceExporter.afterPropertiesSet();
 		return httpInvokerServiceExporter;
-    }
+	}
 	@Bean("/service/userService")
 	public HttpInvokerServiceExporter provideUserService(UserService userService) {
 		HttpInvokerServiceExporter httpInvokerServiceExporter = new HttpInvokerServiceExporter();
@@ -27,5 +27,5 @@ public class UserServicesProvider{
 		httpInvokerServiceExporter.setServiceInterface(UserService.class);
 		httpInvokerServiceExporter.afterPropertiesSet();
 		return httpInvokerServiceExporter;
-    }
+	}
 }

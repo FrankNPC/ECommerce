@@ -18,14 +18,14 @@ import ecommerce.service.user.dao.UserDAOByMySQL;
 @Service
 public class UserServiceImplement implements UserService{
 	
-//    @Autowired
-//    private UserDAOByCassandra userDAO;
-    @Autowired
-    private UserDAOByMySQL userDAO;
+//	@Autowired
+//	private UserDAOByCassandra userDAO;
+	@Autowired
+	private UserDAOByMySQL userDAO;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
-    
+	@Resource
+	private StringRedisTemplate stringRedisTemplate;
+	
 	@Override
 	public Result<List<User>> queryUsers(User user, int start, int size) {
 		start = start<0?0:start;
@@ -59,13 +59,13 @@ public class UserServiceImplement implements UserService{
 		if (user.getId()==null) {
 			Long id = stringRedisTemplate.opsForValue().increment(KeyIdentifies.UserId.value, 1);
 			user.setId(id);
-	    	user.setSessionId(StringUtils.hex62EncodingWithRandom(32,user.getId()));
+			user.setSessionId(StringUtils.hex62EncodingWithRandom(32,user.getId()));
 			if (userDAO.insert(user)) {
 				result.setData(user);
 			}
 		}else {
 			if (user.getSessionId()==null) {
-		    	user.setSessionId(StringUtils.hex62EncodingWithRandom(32,user.getId()));
+				user.setSessionId(StringUtils.hex62EncodingWithRandom(32,user.getId()));
 			}
 			if (userDAO.update(user)) {
 				result.setData(user);

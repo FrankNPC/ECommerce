@@ -25,7 +25,8 @@ hs_err_pid*
 .classpath
 .project
 .settings
-target
+.DS_Store
 
+target
 logs
 work

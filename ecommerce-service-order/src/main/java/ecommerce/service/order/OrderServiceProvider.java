@@ -19,7 +19,7 @@ public class OrderServiceProvider{
 		httpInvokerServiceExporter.setServiceInterface(OrderService.class);
 		httpInvokerServiceExporter.afterPropertiesSet();
 		return httpInvokerServiceExporter;
-    }
+	}
 
 	@Bean("/service/orderFlowService")
 	public HttpInvokerServiceExporter orderService(OrderFlowService orderFlowService) {
@@ -28,6 +28,6 @@ public class OrderServiceProvider{
 		httpInvokerServiceExporter.setServiceInterface(OrderFlowService.class);
 		httpInvokerServiceExporter.afterPropertiesSet();
 		return httpInvokerServiceExporter;
-    }
+	}
 	
 }

@@ -23,23 +23,23 @@ import ecommerce.service.client.base.Order;
 
 public class ProductMessageConsumer implements MessageListener<String, String> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProductMessageConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductMessageConsumer.class);
 
 	public ProductMessageConsumer(Map<String, Object> config) throws Exception {
-        ContainerProperties containerProperties = new ContainerProperties(ProductMessageTopics.ProductQuantitySync.value);
-        containerProperties.setMessageListener(this);
-        
-        new KafkaMessageListenerContainer<String, Order>(
-        		new DefaultKafkaConsumerFactory<String, Order>(config),
-        		containerProperties).start();
-    }
+		ContainerProperties containerProperties = new ContainerProperties(
+				ProductMessageTopics.ProductQuantitySync.value);
+		containerProperties.setMessageListener(this);
 
-    @Autowired
-    private ProductService productService;
+		new KafkaMessageListenerContainer<String, Order>(new DefaultKafkaConsumerFactory<String, Order>(config),
+				containerProperties).start();
+	}
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-    
+	@Autowired
+	private ProductService productService;
+
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
+
 	@Override
 	public void onMessage(ConsumerRecord<String, String> consumer) {
 		Arrays.stream(consumer.value().split(","))
@@ -57,5 +57,4 @@ public class ProductMessageConsumer implements MessageListener<String, String> {
 				});
 	}
 
-    
 }

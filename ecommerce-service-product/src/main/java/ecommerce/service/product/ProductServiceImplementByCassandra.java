@@ -26,23 +26,23 @@ package ecommerce.service.product;
 ////@Service
 //public class ProductServiceImplementByCassandra implements ProductService{
 //
-//    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImplementByCassandra.class);
-//    
-//    @Autowired
-//    private ProductDAOByCassandra productDAO;
+//	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImplementByCassandra.class);
+//	
+//	@Autowired
+//	private ProductDAOByCassandra productDAO;
 //
-//    @Resource
-//    private RedisTemplate<String, Product> redisTemplate;
+//	@Resource
+//	private RedisTemplate<String, Product> redisTemplate;
 //
-//    @Resource
-//    private KafkaTemplate<String, String> stringKafkaTemplate;
-//    
-//    @Resource
-//    private StringRedisTemplate stringRedisTemplate;
+//	@Resource
+//	private KafkaTemplate<String, String> stringKafkaTemplate;
+//	
+//	@Resource
+//	private StringRedisTemplate stringRedisTemplate;
 //
-//    @Resource
-//    private RedisLock distributedLock;
-//    
+//	@Resource
+//	private RedisLock distributedLock;
+//	
 //	@Override
 //	public Result<List<Product>> queryProducts(Product product, int start, int size) {
 //		Result<List<Product>> result = new Result<List<Product>>();
@@ -145,7 +145,7 @@ package ecommerce.service.product;
 //		List<String> prodIdKeys = Collections.singletonList(Long.toString(productId));
 //		List<String>   lockKeys = Collections.singletonList(String.format(KeyIdentifies.ProductQuantityLock.value, productId));
 //		Object[] quantityValues = Collections.singletonList(Long.toString(quantity)).toArray();
-//    	try {
+//		try {
 //			if (distributedLock.tryLock(lockKeys, KeyIdentifies.ProductQuantityLock.interval, TimeUnit.MICROSECONDS)) {
 //				Long number = stringRedisTemplate.execute(
 //						new DefaultRedisScript<Long>(
@@ -164,7 +164,7 @@ package ecommerce.service.product;
 //				}
 //			}
 //		} catch (InterruptedException e) {
-//    		logger.error(e.getMessage());
+//			logger.error(e.getMessage());
 //		}
 //		result.setCode(result.getData()==null?Result.Code.Error.value:Result.Code.OK.value);
 //		return result;
@@ -187,9 +187,9 @@ package ecommerce.service.product;
 //								"local ret = '' \n "+
 //								"for i=1, #ARGV, 1 do \n"+
 //								"  if tonumber(redis.call('HGET', '"+KeyIdentifies.ProductQuantityKey.value+"', KEYS[i]))+tonumber(ARGV[i])>=0 then\n"+
-//								"    ret = ret .. ',' .. redis.call('HINCRBY', '"+KeyIdentifies.ProductQuantityKey.value+"', KEYS[i], ARGV[i]) \n"+
+//								"	ret = ret .. ',' .. redis.call('HINCRBY', '"+KeyIdentifies.ProductQuantityKey.value+"', KEYS[i], ARGV[i]) \n"+
 //								"  else \n"+
-//								"    ret = ret .. ',' \n"+
+//								"	ret = ret .. ',' \n"+
 //								"  end \n"+
 //								"end \n"+
 //								"return ret \n"
@@ -198,7 +198,7 @@ package ecommerce.service.product;
 //					);
 //			}
 //		} catch (InterruptedException e) {
-//    		logger.error(e.getMessage());
+//			logger.error(e.getMessage());
 //		}finally {
 //			distributedLock.unlock();
 //		}
@@ -209,7 +209,7 @@ package ecommerce.service.product;
 //										.map(n->n.isEmpty()?null:Long.parseLong(n))
 //											.collect(Collectors.toList()));
 //		}
-//    	
+//		
 //		result.setCode(result.getData()==null?Result.Code.Error.value:Result.Code.OK.value);
 //		return result;
 //	}

@@ -30,31 +30,31 @@ import org.slf4j.LoggerFactory;
 
 public class HbaseTemplate {
 	
-    private static final Logger logger = LoggerFactory.getLogger(HbaseTemplate.class);
+	private static final Logger logger = LoggerFactory.getLogger(HbaseTemplate.class);
 
-    private Admin hbaseAdmin;
-    private Connection connection;
-    public HbaseTemplate(Map<String, String> config) {
-    	try {
-	    	Configuration hbaseConfiguration = HBaseConfiguration.create();
-	        for(Map.Entry<String, String> map : config.entrySet()){
-	        	hbaseConfiguration.set(map.getKey(), map.getValue());
-	        }
-	        connection = ConnectionFactory.createConnection(hbaseConfiguration);
-	        hbaseAdmin = connection.getAdmin();
-    	}catch(Exception e) {
-    		logger.error(e.getMessage());
-    	}
-    }
-    
+	private Admin hbaseAdmin;
+	private Connection connection;
+	public HbaseTemplate(Map<String, String> config) {
+		try {
+			Configuration hbaseConfiguration = HBaseConfiguration.create();
+			for(Map.Entry<String, String> map : config.entrySet()){
+				hbaseConfiguration.set(map.getKey(), map.getValue());
+			}
+			connection = ConnectionFactory.createConnection(hbaseConfiguration);
+			hbaseAdmin = connection.getAdmin();
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	public void createTableWithFamilies(String tableName, String... families) throws IOException {
-	    if (!hbaseAdmin.tableExists(TableName.valueOf(tableName))) {
-            List<ColumnFamilyDescriptor> familyDescriptors = Arrays.stream(families).map(family->ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes(family)).build()).collect(Collectors.toList());
-            TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(TableName.valueOf(tableName))
-                    .setColumnFamilies(familyDescriptors)
-                    .build();
-	    	hbaseAdmin.createTable(tableDescriptor);
-	    }
+		if (!hbaseAdmin.tableExists(TableName.valueOf(tableName))) {
+			List<ColumnFamilyDescriptor> familyDescriptors = Arrays.stream(families).map(family->ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes(family)).build()).collect(Collectors.toList());
+			TableDescriptor tableDescriptor = TableDescriptorBuilder.newBuilder(TableName.valueOf(tableName))
+					.setColumnFamilies(familyDescriptors)
+					.build();
+			hbaseAdmin.createTable(tableDescriptor);
+		}
 	}
 	public void deleteTable(String tableName) throws IOException{
 		hbaseAdmin.disableTable(TableName.valueOf(tableName));
@@ -69,11 +69,11 @@ public class HbaseTemplate {
 	public void saveOrUpdateByRowKeys(String tableName, String rowKey, String family, String qualifiers[], String[][] values) throws IOException{
 		Table table = connection.getTable(TableName.valueOf(tableName));
 		Put put = new Put(Bytes.toBytes(rowKey));
-        for(String[] value : values) {
-            for(int i=0;i<qualifiers.length;i++){
-                put.addColumn(Bytes.toBytes(family), Bytes.toBytes(qualifiers[i]), Bytes.toBytes(value[i]));
-            }
-        }
+		for(String[] value : values) {
+			for(int i=0;i<qualifiers.length;i++){
+				put.addColumn(Bytes.toBytes(family), Bytes.toBytes(qualifiers[i]), Bytes.toBytes(value[i]));
+			}
+		}
 		table.put(put);
 	}
 	public void deleteByRowKey(String tableName, String rowKey, String family, String qualifier) throws IOException{

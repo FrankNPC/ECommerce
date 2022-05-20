@@ -28,43 +28,43 @@ import ecommerce.service.product.dao.HbaseTemplate;
 @ConfigurationProperties(prefix = "spring")
 @MapperScan(basePackages="ecommerce.service.product", annotationClass=Mapper.class)
 public class ProductServiceBootApplication {
-    
-    public static void main(String[] args) {
-        SpringApplication.run(ProductServiceBootApplication.class, args);
-    }
-
-    private Map<String, String> hbase = new HashMap<>();
-    public Map<String, String> getHbase() {
-        return hbase;
-    }
-    public void setHbase(Map<String, String> config) {
-        this.hbase = config;
-    }
-    @Bean
-	@Primary
-    public HbaseTemplate getHbaseTemplate() {
-        return new HbaseTemplate(hbase);
+	
+	public static void main(String[] args) {
+		SpringApplication.run(ProductServiceBootApplication.class, args);
 	}
-    
-    private Map<String, Object> kafka = new HashMap<>();
-    public Map<String, Object> getKafkaProducer() {
-        return kafka;
-    }
-    public void setKafkaProducer(Map<String, String> config) {
-        this.kafka.putAll(config);
-    }
-    
-    @Bean
+
+	private Map<String, String> hbase = new HashMap<>();
+	public Map<String, String> getHbase() {
+		return hbase;
+	}
+	public void setHbase(Map<String, String> config) {
+		this.hbase = config;
+	}
+	@Bean
 	@Primary
-    public KafkaTemplate<String, String> getKafkaTemplate() {
-        return new KafkaTemplate<String, String>(new DefaultKafkaProducerFactory<String, String>(kafka));
-    }
-    
-    @Value("${server.nodeid}")
-    String serverNodeId;
-    @Bean
+	public HbaseTemplate getHbaseTemplate() {
+		return new HbaseTemplate(hbase);
+	}
+	
+	private Map<String, Object> kafka = new HashMap<>();
+	public Map<String, Object> getKafkaProducer() {
+		return kafka;
+	}
+	public void setKafkaProducer(Map<String, String> config) {
+		this.kafka.putAll(config);
+	}
+	
+	@Bean
 	@Primary
-    public RedisLock getRedisLock() {
-        return new RedisLock(Long.parseLong(serverNodeId));
+	public KafkaTemplate<String, String> getKafkaTemplate() {
+		return new KafkaTemplate<String, String>(new DefaultKafkaProducerFactory<String, String>(kafka));
+	}
+	
+	@Value("${server.nodeid}")
+	String serverNodeId;
+	@Bean
+	@Primary
+	public RedisLock getRedisLock() {
+		return new RedisLock(Long.parseLong(serverNodeId));
 	}
 }

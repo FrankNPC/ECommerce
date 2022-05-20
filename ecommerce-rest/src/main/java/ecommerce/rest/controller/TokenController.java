@@ -20,48 +20,46 @@ import ecommerce.service.client.base.User;
 @RestController
 @CrossOrigin
 public class TokenController {
-	
-    private static final Logger logger = LoggerFactory.getLogger(TokenController.class);
 
-    @Resource
+	private static final Logger logger = LoggerFactory.getLogger(TokenController.class);
+
+	@Resource
 	private TokenService tokenService;
 
-    @Resource
+	@Resource
 	private UserService userService;
 
-    @RequestMapping("/token/get")
-	public String get(
-			@RequestParam(value = "callback", defaultValue = "") String callback,
-			@RequestParam(value = "session_id", defaultValue = "") String sessionId
-			) {
-    	logger.info(String.format("[%s][%s]", callback, sessionId));
+	@RequestMapping("/token/get")
+	public String get(@RequestParam(value = "callback", defaultValue = "") String callback,
+			@RequestParam(value = "session_id", defaultValue = "") String sessionId) {
+		logger.info(String.format("[%s][%s]", callback, sessionId));
 
-    	ObjectMapper objectMapper = new ObjectMapper();
-    	ObjectNode objectNode = objectMapper.createObjectNode();
+		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectNode objectNode = objectMapper.createObjectNode();
 
-    	if (!sessionId.isEmpty()&&sessionId.matches("^[a-zA-Z0-9]{32}$")) {
-        	Result<User> userResult = userService.getUserBySessionId(sessionId);
-        	if (userResult.getCode()==Result.Code.OK.value) {
-            	Result<String> getTokenResult = tokenService.getTokenByUserId(userResult.getData().getId());
-        		objectNode.put("token", getTokenResult.getData());
-        	}else {
-            	Result<String> getTokenResult = tokenService.getToken();
-            	if (getTokenResult.getCode()==Result.Code.OK.value) {
-            		objectNode.put("token", getTokenResult.getData());
-            	}
-        	}
-    	}else {
-        	Result<String> getTokenResult = tokenService.getToken();
-        	if (getTokenResult.getCode()==Result.Code.OK.value) {
-        		objectNode.put("token", getTokenResult.getData());
-        	}
-    	}
-    	
-    	if (callback.isEmpty()) {
-    		return objectNode.toString();
-    	}else {
-    		return callback+"("+objectNode.toString()+")";
-    	}
-    }
-    
+		if (!sessionId.isEmpty() && sessionId.matches("^[a-zA-Z0-9]{32}$")) {
+			Result<User> userResult = userService.getUserBySessionId(sessionId);
+			if (userResult.getCode() == Result.Code.OK.value) {
+				Result<String> getTokenResult = tokenService.getTokenByUserId(userResult.getData().getId());
+				objectNode.put("token", getTokenResult.getData());
+			} else {
+				Result<String> getTokenResult = tokenService.getToken();
+				if (getTokenResult.getCode() == Result.Code.OK.value) {
+					objectNode.put("token", getTokenResult.getData());
+				}
+			}
+		} else {
+			Result<String> getTokenResult = tokenService.getToken();
+			if (getTokenResult.getCode() == Result.Code.OK.value) {
+				objectNode.put("token", getTokenResult.getData());
+			}
+		}
+
+		if (callback.isEmpty()) {
+			return objectNode.toString();
+		} else {
+			return callback + "(" + objectNode.toString() + ")";
+		}
+	}
+
 }

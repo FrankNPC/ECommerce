@@ -16,38 +16,38 @@ import org.springframework.context.annotation.Profile;
 @Profile("!local")
 public class ServiceClientsForOrder {
 
-    @Value("${ecommerce.service.product}")
-    String productServiceName;
-    @Value("${ecommerce.service.token}")
-    String tokenServiceName;
-    @Value("${ecommerce.service.user}")
-    String userServiceName;
+	@Value("${ecommerce.service.product}")
+	String productServiceName;
+	@Value("${ecommerce.service.token}")
+	String tokenServiceName;
+	@Value("${ecommerce.service.user}")
+	String userServiceName;
 
 	@Bean(name = "userServiceClient")
 	@Primary
-    public HttpInvokerProxyFactoryBean getUserServiceClient(){
-        HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceInterface(UserService.class);
-        proxy.setServiceUrl(userServiceName);
-        return proxy;
-    }
+	public HttpInvokerProxyFactoryBean getUserServiceClient(){
+		HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
+		proxy.setServiceInterface(UserService.class);
+		proxy.setServiceUrl(userServiceName);
+		return proxy;
+	}
 
 	@Bean(name = "tokenServiceClient")
 	@Primary
-    public HttpInvokerProxyFactoryBean getTokenServiceClient(){
-        HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceInterface(TokenService.class);
-        proxy.setServiceUrl(tokenServiceName);
-        return proxy;
-    }
+	public HttpInvokerProxyFactoryBean getTokenServiceClient(){
+		HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
+		proxy.setServiceInterface(TokenService.class);
+		proxy.setServiceUrl(tokenServiceName);
+		return proxy;
+	}
 	
 	@Bean(name = "productServiceClient")
 	@Primary
-    public HttpInvokerProxyFactoryBean getProductServiceClient(){
-        HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceInterface(ProductService.class);
-        proxy.setServiceUrl(productServiceName);
-        return proxy;
-    }
+	public HttpInvokerProxyFactoryBean getProductServiceClient(){
+		HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
+		proxy.setServiceInterface(ProductService.class);
+		proxy.setServiceUrl(productServiceName);
+		return proxy;
+	}
 
 }

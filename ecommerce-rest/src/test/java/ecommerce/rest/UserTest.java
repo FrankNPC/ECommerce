@@ -30,85 +30,85 @@ import org.springframework.test.context.ActiveProfiles;
 @WebAppConfiguration
 public class UserTest {
 	
-    private MockMvc mockMvc;
+	private MockMvc mockMvc;
 
-    @Autowired
-    protected WebApplicationContext wac;
-    
-    @Before
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-    }
+	@Autowired
+	protected WebApplicationContext wac;
+	
+	@Before
+	public void setup() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+	}
 
-    private String getToken(String sessionId) throws Exception {
-    	ObjectMapper objectMapper = new ObjectMapper();
-        String responseString = mockMvc.perform(
-	                get("/token/get")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("session_id", sessionId)
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(responseString);
-        System.out.println("getToken           :"+responseString);
-        return objectMapper.readTree(responseString).get("token").asText();
-    }
-    @Test
-    public void testUser() throws Exception {
-    	ObjectMapper objectMapper = new ObjectMapper();
-    	String username = "user_"+System.currentTimeMillis();
-    	String password = StringUtils.hex62EncodingWithRandom(32);
-        String responseString = mockMvc.perform(
-	                get("/user/create")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("username", username)
-	                .param("password", password)
-	                .param("token", getToken(null))
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(objectMapper.readTree(responseString).get("session_id"));
-        System.out.println("testUsercreate     :"+responseString);
-        
-
-        responseString = mockMvc.perform(
-	                get("/user/login")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("username", username)
-	                .param("password", password)
-	                .param("token", objectMapper.readTree(responseString).get("token").asText())
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(objectMapper.readTree(responseString).get("session_id"));
-        System.out.println("testLogin          :"+responseString);
-
-        responseString = mockMvc.perform(
-	                get("/user/reset")
-	                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//	                .param("callback","callback_"+System.currentTimeMillis())
-	                .param("session_id", objectMapper.readTree(responseString).get("session_id").asText())
-	                .param("token", objectMapper.readTree(responseString).get("token").asText())
-        		).andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse().getContentAsString();
-    	Assert.assertNotNull(objectMapper.readTree(responseString).get("session_id"));
-        System.out.println("testReset          :"+responseString);
-
-        responseString = mockMvc.perform(
-                get("/user/reset")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("callback","callback_"+System.currentTimeMillis())
-                .param("password", StringUtils.hex62EncodingWithRandom(32))
-                .param("session_id", objectMapper.readTree(responseString).get("session_id").asText())
-                .param("token", objectMapper.readTree(responseString).get("token").asText())
-    		).andExpect(status().isOk())
-            .andDo(print())
-            .andReturn().getResponse().getContentAsString();
+	private String getToken(String sessionId) throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+		String responseString = mockMvc.perform(
+					get("/token/get")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("session_id", sessionId)
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(responseString);
+		System.out.println("getToken		   :"+responseString);
+		return objectMapper.readTree(responseString).get("token").asText();
+	}
+	@Test
+	public void testUser() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+		String username = "user_"+System.currentTimeMillis();
+		String password = StringUtils.hex62EncodingWithRandom(32);
+		String responseString = mockMvc.perform(
+					get("/user/create")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("username", username)
+					.param("password", password)
+					.param("token", getToken(null))
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
 		Assert.assertNotNull(objectMapper.readTree(responseString).get("session_id"));
-	    System.out.println("testReset          :"+responseString);
-    }
+		System.out.println("testUsercreate	 :"+responseString);
+		
+
+		responseString = mockMvc.perform(
+					get("/user/login")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("username", username)
+					.param("password", password)
+					.param("token", objectMapper.readTree(responseString).get("token").asText())
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(objectMapper.readTree(responseString).get("session_id"));
+		System.out.println("testLogin		  :"+responseString);
+
+		responseString = mockMvc.perform(
+					get("/user/reset")
+					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//					.param("callback","callback_"+System.currentTimeMillis())
+					.param("session_id", objectMapper.readTree(responseString).get("session_id").asText())
+					.param("token", objectMapper.readTree(responseString).get("token").asText())
+				).andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(objectMapper.readTree(responseString).get("session_id"));
+		System.out.println("testReset		  :"+responseString);
+
+		responseString = mockMvc.perform(
+				get("/user/reset")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//				.param("callback","callback_"+System.currentTimeMillis())
+				.param("password", StringUtils.hex62EncodingWithRandom(32))
+				.param("session_id", objectMapper.readTree(responseString).get("session_id").asText())
+				.param("token", objectMapper.readTree(responseString).get("token").asText())
+			).andExpect(status().isOk())
+			.andDo(print())
+			.andReturn().getResponse().getContentAsString();
+		Assert.assertNotNull(objectMapper.readTree(responseString).get("session_id"));
+		System.out.println("testReset		  :"+responseString);
+	}
 }

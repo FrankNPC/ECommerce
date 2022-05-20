@@ -1,0 +1,13 @@
+rm -rf .classpaath
+rm -rf .project
+rm -rf .settings
+rm -rf ./*/.settings
+rm -rf ./*/.project
+rm -rf ./*/.classpath
+rm -rf ./*/*/.classpath
+rm -rf ./*/*/.project
+rm -rf ./*/*/.settings
+rm -rf logs
+rm -rf target
+rm -rf ./*/logs
+rm -rf ./*/target

@@ -23,7 +23,7 @@ public class Order implements java.io.Serializable {
 	private String externalOrderId;
 	
 	public enum Status {
-	    Actived(0), Paid(1), Refund(2), Completed(3), Closed(-1);
+		Actived(0), Paid(1), Refund(2), Completed(3), Closed(-1);
 		public int value=0;
 		private Status(int s){this.value=s;}
 	}
